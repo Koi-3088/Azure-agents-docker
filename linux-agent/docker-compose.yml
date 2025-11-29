@@ -1,0 +1,45 @@
+services:
+  linux-agent-1:
+    build: .
+    image: azp-linux-agent
+    container_name: azp-linux-agent-1
+    environment:
+      AZP_URL: "${AZP_URL}"
+      AZP_TOKEN: "${AZP_TOKEN1}"
+      AZP_POOL: "${AZP_POOL}"
+      AZP_AGENT_NAME: "${AZP_AGENT_NAME1}"
+    cpus: 3
+    mem_limit: 12G
+    storage_opt:
+      size: 50G
+    isolation: default
+    restart: always
+    networks:
+      - azp-network-1
+
+  linux-agent-2:
+    build: .
+    image: azp-linux-agent
+    container_name: azp-linux-agent-2
+    environment:
+      AZP_URL: "${AZP_URL}"
+      AZP_TOKEN: "${AZP_TOKEN2}"
+      AZP_POOL: "${AZP_POOL}"
+      AZP_AGENT_NAME: "${AZP_AGENT_NAME2}"
+    cpus: 3
+    mem_limit: 12G
+    storage_opt:
+      size: 50G
+    isolation: default
+    restart: always
+    networks:
+      - azp-network-2
+
+networks:
+  azp-network-1:
+    driver: bridge
+  azp-network-2:
+    driver: bridge
+
+volumes:
+  linux_agent_data:

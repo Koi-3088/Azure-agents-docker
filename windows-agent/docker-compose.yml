@@ -1,0 +1,44 @@
+services:
+  win-agent-1:
+    build: .
+    image: azp-win-agent
+    container_name: azp-win-agent-1
+    environment:
+      AZP_URL: "${AZP_URL}"
+      AZP_TOKEN: "${AZP_TOKEN1}"
+      AZP_POOL: "${AZP_POOL}"
+      AZP_AGENT_NAME: "${AZP_AGENT_NAME1}"
+    cpus: 4
+    mem_limit: 16G
+    storage_opt:
+      size: 50G
+    isolation: process
+    restart: always
+    networks:
+      - azp-network-1
+
+  win-agent-2:
+    build: .
+    image: azp-win-agent
+    container_name: azp-win-agent-2
+    environment:
+      AZP_URL: "${AZP_URL}"
+      AZP_TOKEN: "${AZP_TOKEN2}"
+      AZP_POOL: "${AZP_POOL}"
+      AZP_AGENT_NAME: "${AZP_AGENT_NAME2}"
+    cpus: 4
+    mem_limit: 16G
+    storage_opt:
+      size: 50G
+    isolation: process
+    restart: always
+    networks:
+      - azp-network-2
+
+networks:
+  azp-network-1:
+    driver: nat
+  azp-network-2:
+    driver: nat
+volumes:
+  win_agent_data:
