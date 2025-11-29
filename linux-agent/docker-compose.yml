@@ -1,7 +1,6 @@
 services:
   linux-agent-1:
-    build: .
-    image: azp-linux-agent
+    image: koi3088/azure-agent-ubuntu:latest
     container_name: azp-linux-agent-1
     environment:
       AZP_URL: "${AZP_URL}"
@@ -18,8 +17,7 @@ services:
       - azp-network-1
 
   linux-agent-2:
-    build: .
-    image: azp-linux-agent
+    image: koi3088/azure-agent-ubuntu:latest
     container_name: azp-linux-agent-2
     environment:
       AZP_URL: "${AZP_URL}"

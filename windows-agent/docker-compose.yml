@@ -1,7 +1,6 @@
 services:
   win-agent-1:
-    build: .
-    image: azp-win-agent
+    image: koi3088/azure-agent-windows:latest
     container_name: azp-win-agent-1
     environment:
       AZP_URL: "${AZP_URL}"
@@ -18,8 +17,7 @@ services:
       - azp-network-1
 
   win-agent-2:
-    build: .
-    image: azp-win-agent
+    image: koi3088/azure-agent-windows:latest
     container_name: azp-win-agent-2
     environment:
       AZP_URL: "${AZP_URL}"
