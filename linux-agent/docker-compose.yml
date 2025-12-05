@@ -1,6 +1,10 @@
 services:
   linux-agent-1:
     image: koi3088/azure-agent-ubuntu:latest
+    devices:
+      - "/dev/fuse:/dev/fuse"
+    cap_add:
+      - "SYS_ADMIN"
     container_name: azp-linux-agent-1
     environment:
       AZP_URL: "${AZP_URL}"
@@ -18,6 +22,10 @@ services:
 
   linux-agent-2:
     image: koi3088/azure-agent-ubuntu:latest
+    devices:
+      - "/dev/fuse:/dev/fuse"
+    cap_add:
+      - "SYS_ADMIN"
     container_name: azp-linux-agent-2
     environment:
       AZP_URL: "${AZP_URL}"

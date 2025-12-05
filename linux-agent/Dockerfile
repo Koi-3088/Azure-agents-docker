@@ -22,7 +22,7 @@ RUN set -eux; \
         libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-util1 libgl1-mesa-dev libglu1-mesa-dev libglx-dev \
         libpulse-dev libasound2-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-0 libopencv-dev \
         libtiff-dev libtiff6 libjpeg-turbo8 libpng-dev file patchelf desktop-file-utils zsync \
-        libssl-dev libicu-dev libkrb5-3 zlib1g-dev fuse3 libfuse2 libxcb-xfixes0; \
+        libssl-dev libicu-dev libkrb5-3 zlib1g-dev kmod fuse3 libfuse2 libxcb-xfixes0; \
     apt-get upgrade -y; \
     rm -rf /var/lib/apt/lists/*
 
