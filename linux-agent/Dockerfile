@@ -52,11 +52,15 @@ RUN mkdir -p /opt/Qt && \
     python3 -m aqt install-qt linux desktop 6.10.0 -m all --outputdir /opt/Qt
 
 # ------------------------------------------------------------------
-# 6. Azure Pipelines (Azure DevOps) agent 4.264.2
+# 6. Azure Pipelines (Azure DevOps) agent 4.264.2 and libdpp@10.0.28
 # ------------------------------------------------------------------
 USER root
 RUN useradd -m -s /bin/bash azureuser
 WORKDIR /home/azureuser/linux-agent
+
+RUN wget -q https://github.com/brainboxdotcc/DPP/releases/download/v10.0.28/libdpp-10.0.28-linux-x64.deb -O libdpp.deb && \
+    apt install ./libdpp.deb -f && \
+    rm libdpp.deb
 
 RUN wget -q https://download.agent.dev.azure.com/agent/4.264.2/vsts-agent-linux-x64-4.264.2.tar.gz -O agent.tar.gz && \
     tar -xzf agent.tar.gz -C /home/azureuser/linux-agent && \
