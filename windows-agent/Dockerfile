@@ -83,17 +83,19 @@ RUN powershell -Command `
     Remove-Item $ninjaZip -Force; `
     Write-Host 'Ninja installation complete.'
 
+ENV PATH="C:\\ninja;C:\\Windows\\System32;C:\\Windows;C:\\Windows\\System32\\WindowsPowerShell\\v1.0;C:\\Program Files\\CMake\\bin;C:\\Program Files\\Git\\bin;C:\\Program Files\\LLVM\\bin;C:\\Program Files\\Python311;C:\\Qt\\6.8.3\\msvc2022_64;C:\\Qt\\6.8.3\\msvc2022_64\\lib\\cmake;C:\\Qt\\6.8.3\\msvc2022_64\\bin"
+
 # ------------------------------------------------------------
 # 7. Verify major toolchains
 # ------------------------------------------------------------
 RUN powershell -Command `
-    "Write-Host 'Verifying toolchain setup...'; `
-    & 'C:\Program Files\LLVM\bin\clang.exe' --version; `
-    & 'C:\Program Files\Python311\python.exe' --version; `
+    Write-Host 'Verifying toolchain setup...'; `
+    & 'clang.exe' --version; `
+    & 'python.exe' --version; `
     & 'cmake.exe' --version; `
     & 'git.exe' --version; `
-    & 'C:\ninja\ninja.exe' --version; `
-    Write-Host 'Toolchain verification complete.'"
+    & 'ninja.exe' --version; `
+    Write-Host 'Toolchain verification complete.'
 
 # ------------------------------------------------------------
 # 8. Azure DevOps Agent
