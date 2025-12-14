@@ -71,7 +71,20 @@ RUN powershell -Command `
     Write-Host 'CMake and Git installation complete.'
 
 # ------------------------------------------------------------
-# 6. Verify major toolchains
+# 6. Install Ninja build tools
+# ------------------------------------------------------------
+RUN powershell -Command `
+    Write-Host 'Installing Ninja build tools...'; `
+    $ninjaUrl = 'https://github.com/ninja-build/ninja/releases/latest/download/ninja-win.zip'; `
+    $ninjaZip = 'C:\ninja.zip'; `
+    $ninjaDir = 'C:\ninja'; `
+    Invoke-WebRequest -Uri $ninjaUrl -OutFile $ninjaZip; `
+    Expand-Archive -Path $ninjaZip -DestinationPath $ninjaDir -Force; `
+    Remove-Item $ninjaZip -Force; `
+    Write-Host 'Ninja installation complete.'
+
+# ------------------------------------------------------------
+# 7. Verify major toolchains
 # ------------------------------------------------------------
 RUN powershell -Command `
     "Write-Host 'Verifying toolchain setup...'; `
@@ -79,10 +92,11 @@ RUN powershell -Command `
     & 'C:\Program Files\Python311\python.exe' --version; `
     & 'cmake.exe' --version; `
     & 'git.exe' --version; `
+    & 'C:\ninja\ninja.exe' --version; `
     Write-Host 'Toolchain verification complete.'"
 
 # ------------------------------------------------------------
-# 7. Azure DevOps Agent
+# 8. Azure DevOps Agent
 # ------------------------------------------------------------
 WORKDIR C:\azp
 RUN Invoke-WebRequest https://download.agent.dev.azure.com/agent/4.264.2/vsts-agent-win-x64-4.264.2.zip -OutFile agent.zip; `
