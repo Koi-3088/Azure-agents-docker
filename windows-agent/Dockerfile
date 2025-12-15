@@ -53,7 +53,7 @@ RUN Write-Host 'Installing Qt 6.8.3 with aqtinstall...'; `
     $python = 'C:\Program Files\Python311\python.exe'; `
     & "$python" -m pip install --upgrade pip; `
     & "$python" -m pip install aqtinstall; `
-    & "$python" -m aqt install-qt --outputdir C:\Qt windows desktop 6.8.3 win64_msvc2022_64 -m qtserialport qtmultimedia; `
+    & "$python" -m aqt install-qt --outputdir C:\Qt windows desktop 6.8.3 win64_msvc2022_64 -m all; `
     Write-Host 'Qt installation complete (via aqtinstall).'
 
 # ------------------------------------------------------------
@@ -83,18 +83,16 @@ RUN powershell -Command `
     Remove-Item $ninjaZip -Force; `
     Write-Host 'Ninja installation complete.'
 
-ENV PATH="C:\\ninja;C:\\Windows\\System32;C:\\Windows;C:\\Windows\\System32\\WindowsPowerShell\\v1.0;C:\\Program Files\\CMake\\bin;C:\\Program Files\\Git\\bin;C:\\Program Files\\LLVM\\bin;C:\\Program Files\\Python311;C:\\Qt\\6.8.3\\msvc2022_64;C:\\Qt\\6.8.3\\msvc2022_64\\lib\\cmake;C:\\Qt\\6.8.3\\msvc2022_64\\bin"
-
 # ------------------------------------------------------------
 # 7. Verify major toolchains
 # ------------------------------------------------------------
 RUN powershell -Command `
     Write-Host 'Verifying toolchain setup...'; `
-    & 'clang.exe' --version; `
-    & 'python.exe' --version; `
+    & 'C:\Program Files\LLVM\bin\clang.exe' --version; `
+    & 'C:\Program Files\Python311\python.exe' --version; `
     & 'cmake.exe' --version; `
     & 'git.exe' --version; `
-    & 'ninja.exe' --version; `
+    & 'C:\ninja\ninja.exe' --version; `
     Write-Host 'Toolchain verification complete.'
 
 # ------------------------------------------------------------
