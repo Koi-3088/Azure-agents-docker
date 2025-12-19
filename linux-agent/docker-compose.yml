@@ -11,41 +11,41 @@ services:
       AZP_TOKEN: "${AZP_TOKEN1}"
       AZP_POOL: "${AZP_POOL}"
       AZP_AGENT_NAME: "${AZP_AGENT_NAME1}"
-    cpus: 3
-    mem_limit: 12G
+    cpus: 6
+    mem_limit: 16G
     storage_opt:
-      size: 50G
+      size: 100G
     isolation: default
     restart: always
     networks:
       - azp-network-1
 
-  linux-agent-2:
-    image: koi3088/azure-agent-ubuntu:latest
-    devices:
-      - "/dev/fuse:/dev/fuse"
-    cap_add:
-      - "SYS_ADMIN"
-    container_name: azp-linux-agent-2
-    environment:
-      AZP_URL: "${AZP_URL}"
-      AZP_TOKEN: "${AZP_TOKEN2}"
-      AZP_POOL: "${AZP_POOL}"
-      AZP_AGENT_NAME: "${AZP_AGENT_NAME2}"
-    cpus: 3
-    mem_limit: 12G
-    storage_opt:
-      size: 50G
-    isolation: default
-    restart: always
-    networks:
-      - azp-network-2
+  #linux-agent-2:
+  #  image: koi3088/azure-agent-ubuntu:latest
+  #  devices:
+  #    - "/dev/fuse:/dev/fuse"
+  #  cap_add:
+  #    - "SYS_ADMIN"
+  #  container_name: azp-linux-agent-2
+  #  environment:
+  #    AZP_URL: "${AZP_URL}"
+  #    AZP_TOKEN: "${AZP_TOKEN2}"
+  #    AZP_POOL: "${AZP_POOL}"
+  #    AZP_AGENT_NAME: "${AZP_AGENT_NAME2}"
+  #  cpus: 3
+  #  mem_limit: 12G
+  #  storage_opt:
+  #    size: 50G
+  #  isolation: default
+  #  restart: always
+  #  networks:
+  #    - azp-network-2
 
 networks:
   azp-network-1:
     driver: bridge
-  azp-network-2:
-    driver: bridge
+  #azp-network-2:
+  #  driver: bridge
 
 volumes:
   linux_agent_data:

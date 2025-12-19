@@ -7,36 +7,36 @@ services:
       AZP_TOKEN: "${AZP_TOKEN1}"
       AZP_POOL: "${AZP_POOL}"
       AZP_AGENT_NAME: "${AZP_AGENT_NAME1}"
-    cpus: 4
+    cpus: 8
     mem_limit: 16G
     storage_opt:
-      size: 50G
+      size: 100G
     isolation: process
     restart: always
     networks:
       - azp-network-1
 
-  win-agent-2:
-    image: koi3088/azure-agent-windows:latest
-    container_name: azp-win-agent-2
-    environment:
-      AZP_URL: "${AZP_URL}"
-      AZP_TOKEN: "${AZP_TOKEN2}"
-      AZP_POOL: "${AZP_POOL}"
-      AZP_AGENT_NAME: "${AZP_AGENT_NAME2}"
-    cpus: 4
-    mem_limit: 16G
-    storage_opt:
-      size: 50G
-    isolation: process
-    restart: always
-    networks:
-      - azp-network-2
+  #win-agent-2:
+  #  image: koi3088/azure-agent-windows:latest
+  #  container_name: azp-win-agent-2
+  #  environment:
+  #    AZP_URL: "${AZP_URL}"
+  #    AZP_TOKEN: "${AZP_TOKEN2}"
+  #    AZP_POOL: "${AZP_POOL}"
+  #    AZP_AGENT_NAME: "${AZP_AGENT_NAME2}"
+  #  cpus: 4
+  #  mem_limit: 16G
+  #  storage_opt:
+  #    size: 50G
+  #  isolation: process
+  #  restart: always
+  #  networks:
+  #    - azp-network-2
 
 networks:
   azp-network-1:
     driver: nat
-  azp-network-2:
-    driver: nat
+  #azp-network-2:
+  #  driver: nat
 volumes:
   win_agent_data:
