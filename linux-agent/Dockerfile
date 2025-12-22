@@ -46,13 +46,19 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 && \
 RUN python3 -m pip install --no-cache-dir --upgrade --ignore-installed pip setuptools wheel aqtinstall --break-system-packages
 
 # ------------------------------------------------------------------
-# 5. Install Qt 6.10.0 (desktop GCC)
+# 5. Install onnxruntime + onnxruntime-gpu + CUDA
+# ------------------------------------------------------------------
+RUN python3 -m pip install --no-cache-dir --upgrade onnxruntime onnxruntime-gpu --break-system-packages
+RUN python3 -m pip install --pre --index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ort-cuda-13-nightly/pypi/simple/ --no-cache-dir --upgrade onnxruntime-gpu  --break-system-packages
+
+# ------------------------------------------------------------------
+# 6. Install Qt 6.10.0 (desktop GCC)
 # ------------------------------------------------------------------
 RUN mkdir -p /opt/Qt && \
     python3 -m aqt install-qt linux desktop 6.10.0 -m all --outputdir /opt/Qt
 
 # ------------------------------------------------------------------
-# 6. Azure Pipelines (Azure DevOps) agent 4.264.2 and libdpp@10.0.28
+# 7. Azure Pipelines (Azure DevOps) agent 4.264.2 and libdpp@10.0.28
 # ------------------------------------------------------------------
 USER root
 RUN useradd -m -s /bin/bash azureuser
@@ -67,7 +73,7 @@ RUN wget -q https://download.agent.dev.azure.com/agent/4.264.2/vsts-agent-linux-
     rm agent.tar.gz
 
 # ------------------------------------------------------------------
-# 7. Copy project and start script
+# 8. Copy project and start script
 # ------------------------------------------------------------------
 WORKDIR /home/azureuser/linux-agent
 COPY start.sh .
