@@ -84,7 +84,20 @@ RUN powershell -Command `
     Write-Host 'Ninja installation complete.'
 
 # ------------------------------------------------------------
-# 7. Verify major toolchains
+# 7. Install 7zip
+# ------------------------------------------------------------
+RUN powershell -Command `
+    Write-Host 'Installing 7zip...'; `
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
+    $7zipUrl = 'https://www.7-zip.org/a/7z2408-x64.exe'; `
+    $7zipInstaller = 'C:\7zip-installer.exe'; `
+    Invoke-WebRequest -Uri $7zipUrl -OutFile $7zipInstaller; `
+    Start-Process -FilePath $7zipInstaller -ArgumentList '/S' -Wait; `
+    Remove-Item $7zipInstaller -Force; `
+    Write-Host '7zip installation complete.'
+
+# ------------------------------------------------------------
+# 8. Verify major toolchains
 # ------------------------------------------------------------
 RUN powershell -Command `
     Write-Host 'Verifying toolchain setup...'; `
@@ -93,10 +106,11 @@ RUN powershell -Command `
     & 'cmake.exe' --version; `
     & 'git.exe' --version; `
     & 'C:\ninja\ninja.exe' --version; `
+    & 'C:\Program Files\7-Zip\7z.exe' i; `
     Write-Host 'Toolchain verification complete.'
 
 # ------------------------------------------------------------
-# 8. Azure DevOps Agent
+# 9. Azure DevOps Agent
 # ------------------------------------------------------------
 WORKDIR C:\azp
 RUN Invoke-WebRequest https://download.agent.dev.azure.com/agent/4.264.2/vsts-agent-win-x64-4.264.2.zip -OutFile agent.zip; `
