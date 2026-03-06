@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-c"]
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
-ENV QT_VERSION=6.10.0
+ENV QT_VERSION=6.10.2
 ENV PATH="/opt/Qt/${QT_VERSION}/gcc_64/bin:${PATH}"
 
 # ---------------------------------------------------------------
@@ -52,13 +52,13 @@ RUN python3 -m pip install --no-cache-dir --upgrade onnxruntime onnxruntime-gpu 
 RUN python3 -m pip install --pre --index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ort-cuda-13-nightly/pypi/simple/ --no-cache-dir --upgrade onnxruntime-gpu  --break-system-packages
 
 # ------------------------------------------------------------------
-# 6. Install Qt 6.10.0 (desktop GCC)
+# 6. Install Qt 6.10.2 (desktop GCC)
 # ------------------------------------------------------------------
 RUN mkdir -p /opt/Qt && \
-    python3 -m aqt install-qt linux desktop 6.10.0 -m all --outputdir /opt/Qt
+    python3 -m aqt install-qt linux desktop 6.10.2 -m all --outputdir /opt/Qt
 
 # ------------------------------------------------------------------
-# 7. Azure Pipelines (Azure DevOps) agent 4.264.2 and libdpp@10.0.28
+# 7. Azure Pipelines (Azure DevOps) agent 4.269.0 and libdpp@10.0.28
 # ------------------------------------------------------------------
 USER root
 RUN useradd -m -s /bin/bash azureuser
@@ -68,7 +68,7 @@ RUN wget -q https://github.com/brainboxdotcc/DPP/releases/download/v10.0.28/libd
     apt install ./libdpp.deb -f && \
     rm libdpp.deb
 
-RUN wget -q https://download.agent.dev.azure.com/agent/4.264.2/vsts-agent-linux-x64-4.264.2.tar.gz -O agent.tar.gz && \
+RUN wget -q https://download.agent.dev.azure.com/agent/4.269.0/vsts-agent-linux-x64-4.269.0.tar.gz -O agent.tar.gz && \
     tar -xzf agent.tar.gz -C /home/azureuser/linux-agent && \
     rm agent.tar.gz
 

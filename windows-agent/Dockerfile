@@ -46,15 +46,15 @@ RUN Write-Host 'Installing Python 3.11.9...'; `
     Write-Host 'Python installation complete.'
 
 # ------------------------------------------------------------
-# 4. Qt 6.8.3 via aqtinstall (Full install: QtMultimedia + QtSerialPort)
+# 4. Qt 6.10.2 via aqtinstall (Full install: QtMultimedia + QtSerialPort)
 # ------------------------------------------------------------
-RUN Write-Host 'Installing Qt 6.8.3 with aqtinstall...'; `
+RUN Write-Host 'Installing Qt 6.10.2 with aqtinstall...'; `
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
     $python = 'C:\Program Files\Python311\python.exe'; `
     & "$python" -m pip install --upgrade pip; `
     & "$python" -m pip install aqtinstall; `
-    & "$python" -m aqt install-qt --outputdir C:\Qt windows desktop 6.8.3 win64_msvc2022_64 -m all; `
-    Write-Host 'Qt installation complete (via aqtinstall).'
+    & "$python" -m aqt install-qt --outputdir C:\Qt windows desktop 6.10.2 win64_msvc2022_64 -m all; `
+    Write-Host 'Qt installation complete.'
 
 # ------------------------------------------------------------
 # 5. Install CMake and Git
@@ -113,7 +113,7 @@ RUN powershell -Command `
 # 9. Azure DevOps Agent
 # ------------------------------------------------------------
 WORKDIR C:\azp
-RUN Invoke-WebRequest https://download.agent.dev.azure.com/agent/4.264.2/vsts-agent-win-x64-4.264.2.zip -OutFile agent.zip; `
+RUN Invoke-WebRequest https://download.agent.dev.azure.com/agent/4.269.0/vsts-agent-win-x64-4.269.0.zip -OutFile agent.zip; `
     Expand-Archive agent.zip -DestinationPath .; Remove-Item agent.zip
 COPY start.ps1 .
 ENTRYPOINT ["powershell.exe","-File","start.ps1"]
