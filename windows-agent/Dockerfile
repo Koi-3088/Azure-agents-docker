@@ -96,6 +96,11 @@ RUN powershell -Command `
     Remove-Item $7zipInstaller -Force; `
     Write-Host '7zip installation complete.'
 
+RUN powershell -Command `
+    Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy' `
+    -Name 'VerifiedAndReputablePolicyState' -Value 0 -ErrorAction SilentlyContinue
+    Write-Host 'Fix Application Control.'
+
 # ------------------------------------------------------------
 # 8. Verify major toolchains
 # ------------------------------------------------------------
