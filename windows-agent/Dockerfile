@@ -96,13 +96,15 @@ RUN powershell -Command `
     Remove-Item $7zipInstaller -Force; `
     Write-Host '7zip installation complete.'
 
+# ------------------------------------------------------------
+# 8. Set Application Control Policy
+# ------------------------------------------------------------
 RUN powershell -Command `
     Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy' `
-    -Name 'VerifiedAndReputablePolicyState' -Value 0 -ErrorAction SilentlyContinue
-    Write-Host 'Fix Application Control.'
+    -Name 'VerifiedAndReputablePolicyState' -Value 0 -ErrorAction SilentlyContinue;
 
 # ------------------------------------------------------------
-# 8. Verify major toolchains
+# 9. Verify major toolchains
 # ------------------------------------------------------------
 RUN powershell -Command `
     Write-Host 'Verifying toolchain setup...'; `
@@ -115,7 +117,7 @@ RUN powershell -Command `
     Write-Host 'Toolchain verification complete.'
 
 # ------------------------------------------------------------
-# 9. Azure DevOps Agent
+# 10. Azure DevOps Agent
 # ------------------------------------------------------------
 WORKDIR C:\azp
 RUN Invoke-WebRequest https://download.agent.dev.azure.com/agent/4.269.0/vsts-agent-win-x64-4.269.0.zip -OutFile agent.zip; `
