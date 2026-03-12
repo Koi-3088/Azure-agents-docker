@@ -89,10 +89,10 @@ RUN powershell -Command `
 RUN powershell -Command `
     Write-Host 'Installing 7zip...'; `
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
-    $7zipUrl = 'https://www.7-zip.org/a/7z2408-x64.exe'; `
-    $7zipInstaller = 'C:\7zip-installer.exe'; `
+    $7zipUrl = 'https://www.7-zip.org/a/7z2600-x64.msi'; `
+    $7zipInstaller = 'C:\7zip-installer.msi'; `
     Invoke-WebRequest -Uri $7zipUrl -OutFile $7zipInstaller; `
-    Start-Process -FilePath $7zipInstaller -ArgumentList '/S' -Wait; `
+    Start-Process msiexec.exe -ArgumentList '/I', $7zipInstaller, '/quiet', '/norestart' -Wait; `
     Remove-Item $7zipInstaller -Force; `
     Write-Host '7zip installation complete.'
 
