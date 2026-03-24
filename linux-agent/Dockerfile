@@ -20,9 +20,12 @@ RUN set -eux; \
         build-essential gcc-14 g++-14 make clang lld lldb ninja-build cmake git python3 python3-venv python3-pip \
         libglib2.0-0 libdbus-1-3 libxext-dev libxrandr-dev libxinerama-dev libxi-dev libxcursor-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 \
         libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-util1 libgl1-mesa-dev libglu1-mesa-dev libglx-dev \
-        libpulse-dev libasound2-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-0 libopencv-dev libleptonica-dev libtesseract-dev tesseract-ocr \
-        libtiff-dev libtiff6 libjpeg-turbo8 libpng-dev file patchelf desktop-file-utils zsync \
-        libssl-dev libicu-dev libkrb5-3 zlib1g-dev kmod fuse3 libfuse2 libxcb-xfixes0 p7zip-full; \
+        libpulse-dev libasound2-dev libopencv-dev libleptonica-dev libtesseract-dev tesseract-ocr \
+        libtiff-dev libtiff6 libjpeg-turbo8 libpng-dev file patchelf desktop-file-utils zsync libsystemd-dev \
+        libssl-dev libicu-dev libkrb5-3 zlib1g-dev kmod fuse3 libfuse2 libxcb-xfixes0 p7zip-full \
+        libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
+        gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl \
+        gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio; \
     apt-get upgrade -y; \
     rm -rf /var/lib/apt/lists/*
 
