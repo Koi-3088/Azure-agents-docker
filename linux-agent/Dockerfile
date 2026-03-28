@@ -25,7 +25,7 @@ RUN set -eux; \
         libssl-dev libicu-dev libkrb5-3 zlib1g-dev kmod fuse3 libfuse2 libxcb-xfixes0 p7zip-full \
         libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
         gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl \
-        gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio gstreamer1.0-qt6; \
+        gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio gstreamer1.0-qt6 libvulkan-dev; \
     apt-get upgrade -y; \
     rm -rf /var/lib/apt/lists/*
 
@@ -57,11 +57,21 @@ RUN python3 -m pip install --pre --index-url https://aiinfra.pkgs.visualstudio.c
 # ------------------------------------------------------------------
 # 6. Install Qt 6.10.2 (desktop GCC)
 # ------------------------------------------------------------------
-RUN mkdir -p /opt/Qt && \
-    python3 -m aqt install-qt linux desktop 6.10.2 -m all --outputdir /opt/Qt
+RUN mkdir -p /opt/Qt && python3 -m aqt install-qt linux desktop 6.10.2 -m all --outputdir /opt/Qt
 
 # ------------------------------------------------------------------
-# 7. Azure Pipelines (Azure DevOps) agent 4.269.0 and libdpp@10.0.28
+# 7. Download, build, install Qt 6.10.2 multimedia source
+# ------------------------------------------------------------------
+
+RUN wget -q https://download.qt.io/official_releases/qt/6.10/6.10.2/submodules/qtmultimedia-everywhere-src-6.10.2.tar.xz && \
+    tar xf qtmultimedia-everywhere-src-6.10.2.tar.xz && \
+    cd qtmultimedia-everywhere-src-6.10.2 && \
+    /opt/Qt/6.10.2/gcc_64/bin/qt-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/Qt/6.10.2/gcc_64 . && \
+    cmake --build . --parallel && \
+    cmake --install .
+
+# ------------------------------------------------------------------
+# 8. Azure Pipelines (Azure DevOps) agent 4.269.0 and libdpp@10.0.28
 # ------------------------------------------------------------------
 USER root
 RUN useradd -m -s /bin/bash azureuser
@@ -76,7 +86,7 @@ RUN wget -q https://download.agent.dev.azure.com/agent/4.269.0/vsts-agent-linux-
     rm agent.tar.gz
 
 # ------------------------------------------------------------------
-# 8. Copy project and start script
+# 9. Copy project and start script
 # ------------------------------------------------------------------
 WORKDIR /home/azureuser/linux-agent
 COPY start.sh .
