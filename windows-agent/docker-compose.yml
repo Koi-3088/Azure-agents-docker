@@ -7,7 +7,7 @@ services:
       AZP_TOKEN: "${AZP_TOKEN1}"
       AZP_POOL: "${AZP_POOL}"
       AZP_AGENT_NAME: "${AZP_AGENT_NAME1}"
-    cpus: 8
+    cpus: 16
     mem_limit: 16G
     storage_opt:
       size: 100G
