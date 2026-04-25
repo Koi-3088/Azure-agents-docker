@@ -16,7 +16,7 @@ RUN set -eux; \
     mkdir -p /var/lib/apt/lists/partial && chmod 755 /var/lib/apt/lists/partial; \
     apt-get clean; \
     apt-get update -o Acquire::CompressionTypes::=gz; \
-    apt-get install -y --no-install-recommends ca-certificates tzdata curl wget gnupg apt-transport-https unzip xz-utils \
+    apt-get install -y --no-install-recommends ca-certificates tzdata curl wget gnupg apt-transport-https unzip xz-utils usbutils \
         build-essential gcc-14 g++-14 make clang lld lldb ninja-build cmake git python3 python3-venv python3-pip \
         libglib2.0-0 libdbus-1-3 libxext-dev libxrandr-dev libxinerama-dev libxi-dev libxcursor-dev libxkbcommon-x11-0 libxkbcommon-x11-dev \
         libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-util1 libgl1-mesa-dev libglu1-mesa-dev libglx-dev \
@@ -44,9 +44,9 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 && \
     update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
 
 # ------------------------------------------------------------------
-# 4. Python pip + aqtinstall
+# 4. Python pip + aqtinstall + pyusb
 # ------------------------------------------------------------------
-RUN python3 -m pip install --no-cache-dir --upgrade --ignore-installed pip setuptools wheel aqtinstall --break-system-packages
+RUN python3 -m pip install --no-cache-dir --upgrade --ignore-installed pip setuptools wheel aqtinstall pyusb --break-system-packages
 
 # ------------------------------------------------------------------
 # 5. Install onnxruntime + onnxruntime-gpu + CUDA

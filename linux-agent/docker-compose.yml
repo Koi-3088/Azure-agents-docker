@@ -3,6 +3,7 @@ services:
     image: koi3088/azure-agent-ubuntu:latest
     devices:
       - "/dev/fuse:/dev/fuse"
+      - "/dev/bus/usb:/dev/bus/usb"
     cap_add:
       - "SYS_ADMIN"
     container_name: azp-linux-agent-1
