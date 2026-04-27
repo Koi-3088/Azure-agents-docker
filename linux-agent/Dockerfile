@@ -44,9 +44,9 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 && \
     update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
 
 # ------------------------------------------------------------------
-# 4. Python pip + aqtinstall + pyusb
+# 4. Python pip + aqtinstall + pyusb + pyserial
 # ------------------------------------------------------------------
-RUN python3 -m pip install --no-cache-dir --upgrade --ignore-installed pip setuptools wheel aqtinstall pyusb --break-system-packages
+RUN python3 -m pip install --no-cache-dir --upgrade --ignore-installed pip setuptools wheel aqtinstall pyusb pyserial --break-system-packages
 
 # ------------------------------------------------------------------
 # 5. Install onnxruntime + onnxruntime-gpu + CUDA
