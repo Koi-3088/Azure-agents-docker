@@ -77,7 +77,7 @@ USER root
 RUN useradd -m -s /bin/bash azureuser
 WORKDIR /home/azureuser/linux-agent
 
-RUN wget -q https://github.com/brainboxdotcc/DPP/releases/download/v10.0.28/libdpp-10.0.28-linux-x64.deb -O libdpp.deb && \
+RUN wget -q https://github.com/brainboxdotcc/DPP/releases/download/v10.1.5/libdpp-10.1.5-linux-x64.deb -O libdpp.deb && \
     apt install ./libdpp.deb -f && \
     rm libdpp.deb
 
