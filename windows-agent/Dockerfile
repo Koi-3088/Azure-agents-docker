@@ -120,7 +120,7 @@ RUN powershell -Command `
 # 10. Azure DevOps Agent
 # ------------------------------------------------------------
 WORKDIR C:\azp
-RUN Invoke-WebRequest https://download.agent.dev.azure.com/agent/4.269.0/vsts-agent-win-x64-4.269.0.zip -OutFile agent.zip; `
+RUN Invoke-WebRequest https://download.agent.dev.azure.com/agent/5.277.0/vsts-agent-win-x64-5.277.0.zip -OutFile agent.zip; `
     Expand-Archive agent.zip -DestinationPath .; Remove-Item agent.zip
 COPY start.ps1 .
 ENTRYPOINT ["powershell.exe","-File","start.ps1"]

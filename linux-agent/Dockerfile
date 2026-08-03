@@ -26,7 +26,8 @@ RUN set -eux; \
         libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
         gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl \
         gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio gstreamer1.0-qt6 libvulkan-dev ninja-build \
-        libwayland-dev libwayland-client0 libwayland-cursor0 libwayland-egl1 libwayland-server0 qt6-wayland; \
+        libwayland-dev libwayland-client0 libwayland-cursor0 libwayland-egl1 libwayland-server0 qt6-wayland libxkbfile-dev libxkbfile1 \
+        libpcsclite-dev libpcsclite1; \
     apt-get upgrade -y; \
     rm -rf /var/lib/apt/lists/*
 
@@ -82,7 +83,7 @@ RUN wget -q https://github.com/brainboxdotcc/DPP/releases/download/v10.1.5/libdp
     apt install ./libdpp.deb -f && \
     rm libdpp.deb
 
-RUN wget -q https://download.agent.dev.azure.com/agent/4.269.0/vsts-agent-linux-x64-4.269.0.tar.gz -O agent.tar.gz && \
+RUN wget -q https://download.agent.dev.azure.com/agent/5.277.0/vsts-agent-linux-x64-5.277.0.tar.gz -O agent.tar.gz && \
     tar -xzf agent.tar.gz -C /home/azureuser/linux-agent && \
     rm agent.tar.gz
 
