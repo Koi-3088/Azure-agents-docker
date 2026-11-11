@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM ubuntu:24.04
+FROM ubuntu:26.10
 
 # Use bash for RUN steps
 SHELL ["/bin/bash", "-c"]
@@ -23,11 +23,11 @@ RUN set -eux; \
         libpulse-dev libasound2-dev libopencv-dev libleptonica-dev libtesseract-dev tesseract-ocr libusb-1.0-0-dev \
         libtiff-dev libtiff6 libjpeg-turbo8 libpng-dev file patchelf desktop-file-utils zsync libsystemd-dev \
         libssl-dev libicu-dev libkrb5-3 zlib1g-dev kmod fuse3 libfuse2 libxcb-xfixes0 p7zip-full \
-        libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
+        libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
         gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl \
         gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio gstreamer1.0-qt6 libvulkan-dev ninja-build \
         libwayland-dev libwayland-client0 libwayland-cursor0 libwayland-egl1 libwayland-server0 qt6-wayland libxkbfile-dev libxkbfile1 \
-        libpcsclite-dev libpcsclite1; \
+        libpcsclite-dev libpcsclite1 libqt6qml6 libqt6network6 qt6-base-dev qt6-declarative-dev qt6-base-dev qml6-module-* libsdl3-dev; \
     apt-get upgrade -y; \
     rm -rf /var/lib/apt/lists/*
 
@@ -62,7 +62,9 @@ RUN python3 -m pip install --pre --index-url https://aiinfra.pkgs.visualstudio.c
 RUN mkdir -p /opt/Qt && aqt install-qt linux desktop 6.10.2 -m all --outputdir /opt/Qt
 
 # ------------------------------------------------------------------
-# 7. Download, build, install Qt 6.10.2 multimedia source
+# 7. Download, build, install Qt 6.10.2 multimedia source,
+#    register /opt/Qt libs with ldconfig (aqt installs are invisible
+#    to ldd / the dynamic linker otherwise)
 # ------------------------------------------------------------------
 RUN wget -q https://download.qt.io/official_releases/qt/6.10/6.10.2/submodules/qtmultimedia-everywhere-src-6.10.2.tar.xz && \
     tar xf qtmultimedia-everywhere-src-6.10.2.tar.xz && \
@@ -70,20 +72,22 @@ RUN wget -q https://download.qt.io/official_releases/qt/6.10/6.10.2/submodules/q
     sed -i '/qt_build_repo()/i find_package(Qt6 REQUIRED COMPONENTS GuiPrivate QuickPrivate)' CMakeLists.txt && \
     /opt/Qt/6.10.2/gcc_64/bin/qt-cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/Qt/6.10.2/gcc_64 . && \
     cmake --build . --parallel && \
-    cmake --install .
+    cmake --install . && \
+    echo "/opt/Qt/${QT_VERSION}/gcc_64/lib" > /etc/ld.so.conf.d/qt6.conf && \
+    ldconfig
 
 # ------------------------------------------------------------------
-# 8. Azure Pipelines (Azure DevOps) agent 4.269.0 and libdpp@10.0.28
+# 8. Azure Pipelines (Azure DevOps) agent 5.281.1 and libdpp@10.1.6
 # ------------------------------------------------------------------
 USER root
 RUN useradd -m -s /bin/bash azureuser
 WORKDIR /home/azureuser/linux-agent
 
-RUN wget -q https://github.com/brainboxdotcc/DPP/releases/download/v10.1.5/libdpp-10.1.5-linux-x64.deb -O libdpp.deb && \
+RUN wget -q https://github.com/brainboxdotcc/DPP/releases/download/v10.1.6/libdpp-10.1.6-linux-x64.deb -O libdpp.deb && \
     apt install ./libdpp.deb -f && \
     rm libdpp.deb
 
-RUN wget -q https://download.agent.dev.azure.com/agent/5.277.0/vsts-agent-linux-x64-5.277.0.tar.gz -O agent.tar.gz && \
+RUN wget -q https://download.agent.dev.azure.com/agent/5.281.1/vsts-agent-linux-x64-5.281.1.tar.gz -O agent.tar.gz && \
     tar -xzf agent.tar.gz -C /home/azureuser/linux-agent && \
     rm agent.tar.gz
 
